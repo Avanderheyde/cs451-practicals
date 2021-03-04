@@ -1,5 +1,9 @@
 {
        "python.formatting.provider": "black",
        "editor.formatOnSave": true,
+<<<<<<< HEAD
        "python.pythonPath": "/Users/alderik/opt/anaconda3/bin/python"
+=======
+       "python.pythonPath": "venv/bin/python"
+>>>>>>> upstream/main
 }
