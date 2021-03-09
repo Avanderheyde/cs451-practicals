@@ -11,7 +11,8 @@ Either use the GUI, or use pip:
     # or: use install everything from the requirements file.
     pip install -r requirements.txt
 """
-
+#%%
+import operator
 # We won't be able to get past these import statments if you don't install the library!
 from sklearn.tree import DecisionTreeClassifier
 
@@ -77,7 +78,7 @@ print(
 f = DecisionTreeClassifier(
     splitter="best",
     max_features=None,
-    criterion="gini",
+    criterion="entropy",
     max_depth=None,
     random_state=13,
 )  # type:ignore
@@ -89,14 +90,123 @@ f.fit(train_X, train_y)
 print("Score on Training: {:.3f}".format(f.score(train_X, train_y)))
 print("Score on Testing: {:.3f}".format(f.score(test_X, test_y)))
 
+
+
+
 ## Actual 'practical' assignment.
-TODO(
+print(
     "1. Figure out what all of the parameters I listed for the DecisionTreeClassifier do."
+    """ 
+    splitter="best" - splits based on best split meaning where the optimal amount is classified on the correct side of the split, can also be done randomly
+    max_features - limits number of features dtree uses
+    criterion entropy or gini to calucalate loss 
+    max_depth - how many splits to make
+    random_state - number to keep randomizer consistent
+    """
 )
+
+
 # Consult the documentation: https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html
-TODO("2. Pick one parameter, vary it, and find some version of the 'best' setting.")
+print("2. Pick one parameter, vary it, and find some version of the 'best' setting."
+    """
+    From the experiments its seems that splitting on best and gini criterion are best with a depth of 6. 
+    """)
 # Default performance:
 # There are 2079 training examples and 693 testing examples.
 # Score on Training: 1.000
 # Score on Testing: 0.889
-TODO("3. Leave clear code for running your experiment!")
+
+
+
+print("3. Leave clear code for running your experiment!")
+
+#testing max depth with entropy
+depth = {}
+for i in range(1,21):
+    f = DecisionTreeClassifier(
+    splitter="best",
+    max_features=None,
+    criterion="entropy",
+    max_depth=i,
+    random_state=13,
+    )  # type:ignore
+
+    # train the tree!
+    f.fit(train_X, train_y)
+    depth[i] = f.score(test_X, test_y)
+
+# print(depth.items())
+print('depth of max accuracy with splitter to best criterion entropy', max(depth.items(), key=operator.itemgetter(1)))
+
+#max depth with gini
+depth = {}
+for i in range(1,21):
+    f = DecisionTreeClassifier(
+    splitter="best",
+    max_features=None,
+    criterion="gini",
+    max_depth=i,
+    random_state=13,
+    )  # type:ignore
+
+    # train the tree!
+    f.fit(train_X, train_y)
+    depth[i] = f.score(test_X, test_y)
+
+# print(depth.items())
+print('depth of max accuracy with splitter to best criterion gini', max(depth.items(), key=operator.itemgetter(1)))
+
+#lets change the splitter to random
+depth = {}
+for i in range(1,21):
+    f = DecisionTreeClassifier(
+    splitter="random",
+    max_features=None,
+    criterion="gini",
+    max_depth=i,
+    random_state=13,
+    )  # type:ignore
+
+    # train the tree!
+    f.fit(train_X, train_y)
+    depth[i] = f.score(test_X, test_y)
+
+# print(depth.items())
+print('depth of max accuracy with splitter to random criterion gini', max(depth.items(), key=operator.itemgetter(1)))
+
+#lets change the splitter to random
+depth = {}
+for i in range(1,21):
+    f = DecisionTreeClassifier(
+    splitter="random",
+    max_features=None,
+    criterion="entropy",
+    max_depth=i,
+    random_state=13,
+    )  # type:ignore
+
+    # train the tree!
+    f.fit(train_X, train_y)
+    depth[i] = f.score(test_X, test_y)
+
+# print(depth.items())
+print('depth of max accuracy with splitter to random cirterion entropy', max(depth.items(), key=operator.itemgetter(1)))
+
+
+#max features edited
+depth = {}
+for i in range(1,21):
+    f = DecisionTreeClassifier(
+    splitter="best",
+    max_features=None,
+    criterion="gini",
+    max_depth=i,
+    random_state=13,
+    )  # type:ignore
+
+    # train the tree!
+    f.fit(train_X, train_y)
+    depth[i] = f.score(test_X, test_y)
+
+
+print( 'depth of max accuracy with differ max features and gini and best splitter ', max(depth.items(), key=operator.itemgetter(1)))
